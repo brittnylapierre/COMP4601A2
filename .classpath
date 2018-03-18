@@ -23,5 +23,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jersey-bundle-1.19.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jgap.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
