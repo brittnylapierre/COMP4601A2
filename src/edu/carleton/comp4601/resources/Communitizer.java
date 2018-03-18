@@ -11,6 +11,8 @@ package edu.carleton.comp4601.resources;
 			evaluate population;	
 		}	
 	}	
+	
+	use jgap https://karczmarczuk.users.greyc.fr/TEACH/IAD/java/jgap_tutorial.html
  * */
 public class Communitizer {
 
