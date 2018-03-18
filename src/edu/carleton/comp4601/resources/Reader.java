@@ -63,7 +63,7 @@ public class Reader {
 						if(element.tagName() == "a"){
 							//new user
 							if(!first){
-								System.out.println("Adding user: " + prevUser + " review: " + review);
+								//System.out.println("Adding user: " + prevUser + " review: " + review);
 								reviewMap.put(prevUser, review);
 							} else {
 								first = false;
@@ -73,7 +73,6 @@ public class Reader {
 						} else if (element.tagName() == "p"){
 							review += element.ownText();
 						}
-					    System.out.println(element.ownText());
 					}
 					
 					Movie m = MovieStore.getInstance().createMovie(title.text(), genre);

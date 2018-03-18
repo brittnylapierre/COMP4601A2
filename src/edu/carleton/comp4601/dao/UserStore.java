@@ -34,6 +34,25 @@ public class UserStore {
 		return users.get(new Integer(id));
 	}
 	
+	public User find(String name) {
+		int id = 0;
+		boolean found = false;
+		
+		for(Enumeration<User> us = users.elements(); us.hasMoreElements();){
+			if(us.nextElement().getName() == name){
+				found = true;
+			}
+			id++;
+		}
+		
+		if(found){
+			return users.get(new Integer(id));
+		} else {
+			return null;
+		}
+	}
+	
+	
 	public User createUser(String name) {
 		User u = new User(name);
 		

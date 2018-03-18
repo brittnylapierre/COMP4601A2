@@ -31,6 +31,24 @@ public class MovieStore {
 		return movies.get(new Integer(id));
 	}
 	
+	public Movie find(String title) {
+		int id = 0;
+		boolean found = false;
+		
+		for(Enumeration<Movie> ms = movies.elements(); ms.hasMoreElements();){
+			if(ms.nextElement().getTitle() == title){
+				found = true;
+			}
+			id++;
+		}
+		
+		if(found){
+			return movies.get(new Integer(id));
+		} else {
+			return null;
+		}
+	}
+	
 	public Movie createMovie(String title, String genre) {
 		Movie m = new Movie(title, genre);
 		
