@@ -31,7 +31,7 @@ public class MovieStore {
 		return movies.get(new Integer(id));
 	}
 	
-	public Movie createUser(String title, String genre) {
+	public Movie createMovie(String title, String genre) {
 		Movie m = new Movie(title, genre);
 		
 		movies.put(movies.size(), m);
