@@ -5,7 +5,8 @@ import java.util.ArrayList;
 public class User {
 	String	name;
 	ArrayList<Double> dimensions = new ArrayList<Double>();
-	
+	ArrayList<String> reviewedMovies = new ArrayList<String>();
+
 	public User(String name) {
 		this.name = name;
 	}
@@ -26,5 +27,12 @@ public class User {
 		this.dimensions = dimensions;
 	}
 	
+	public ArrayList<String> getReviewedMovies() {
+		return reviewedMovies;
+	}
+
+	public void setReviewedMovies(ArrayList<String> reviewedMovies) {
+		this.reviewedMovies = reviewedMovies;
+	}
 	
 }

@@ -1,5 +1,7 @@
 package edu.carleton.comp4601.resources;
 
+import java.io.IOException;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -8,14 +10,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriInfo;
 
-
-/*
- * 
- * read in users
- * read in movies and tag genre
- * 
- * 
- * */
 @Path("/rs")
 public class Recommender {
 	// Allows to insert contextual objects into the class,
@@ -28,33 +22,16 @@ public class Recommender {
 		private String name;
 
 		public Recommender() {
+			//reader = new Reader();
 			name = "Brittny and Kelly RS";
 		}
 		
-		@GET
-		public String printName() {
-			return name;
-		}
-		
-		@GET
-		@Produces(MediaType.TEXT_XML)
-		public String sayXML() {
-			return "<?xml version=\"1.0\"?>" + "<rs> " + name + " </rs>";
-		}
-
 		@GET
 		@Produces(MediaType.TEXT_HTML)
 		public String sayHtml() {
 			return "<html> " + "<title>" + name + "</title>" + "<body><h1>" + name
 					+ "</h1></body>" + "</html> ";
 		}
-		
-		@GET
-		@Produces(MediaType.APPLICATION_JSON)
-		public String sayJSON() {
-			return "{" + name + "}";
-		}
-		
 		/*
 		 * You are to implement a RESTful web service /reset/{dir} using GET that initializes your system. 
 		 * This service should then allow the web services in (8)-(12) below to run. This service is a testing 
@@ -64,6 +41,23 @@ public class Recommender {
 		 * of the data in the comp4601/assignments/training directory; however, a tester might choose dir = "testing" 
 		 * to access data in the comp4601/assignments/testing/pages and comp4601/assignments/testing/users directories.
 		 * */
+		@Path("reset")
+		@GET
+		@Produces(MediaType.TEXT_HTML)
+		public String reset() {
+			Reader reader = new Reader();
+			try {
+				reader.readMovies();
+				reader.readUsers();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+				return "<html> " + "<title>" + name + " reset</title>" + "<body><h1>" + name
+						+ " failed</h1></body>" + "</html> ";
+			}
+			return "<html> " + "<title>" + name + " reset</title>" + "<body><h1>" + name
+					+ " reset success</h1></body>" + "</html> ";
+		}
 		
 		//GENRES, NUM ACCESS PER GENRE
 		//diversity of genre, volume of content consumed, 

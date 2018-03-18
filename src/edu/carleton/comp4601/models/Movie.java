@@ -6,7 +6,7 @@ import java.util.HashMap;
 public class Movie {
 	String genre;
 	String title;
-	//<uid, review>
+	//<uname, review>
 	HashMap<String, String> reviews = new HashMap<String, String>();
 	//a shows who, then p shows review.
 	
