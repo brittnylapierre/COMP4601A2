@@ -1,5 +1,6 @@
 package edu.carleton.comp4601.dao;
 
-public class MovieStore {
+import java.util.ArrayList;
 
+public class MovieStore {
 }
