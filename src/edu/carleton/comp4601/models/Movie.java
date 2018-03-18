@@ -10,7 +10,7 @@ public class Movie {
 	HashMap<String, String> reviews = new HashMap<String, String>();
 	//a shows who, then p shows review.
 	
-	public Movie(String genre, String title) {
+	public Movie(String title, String genre) {
 		this.genre = genre;
 		this.title = title;
 	}
