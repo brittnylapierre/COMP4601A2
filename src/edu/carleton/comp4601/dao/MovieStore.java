@@ -27,26 +27,20 @@ public class MovieStore {
 		movies = new ConcurrentHashMap<Integer, Movie>();
 	}
 	
-	public Movie find(int id) {
-		return movies.get(new Integer(id));
-	}
 	
 	public Movie find(String title) {
-		int id = 0;
-		boolean found = false;
-		
 		for(Enumeration<Movie> ms = movies.elements(); ms.hasMoreElements();){
-			if(ms.nextElement().getTitle() == title){
-				found = true;
+			Movie m = ms.nextElement();
+			//System.out.println("m titl: " +  m.getTitle() + " t: " + title);
+			if(m.getTitle().equals(title)){
+				return m;
 			}
-			id++;
 		}
-		
-		if(found){
-			return movies.get(new Integer(id));
-		} else {
-			return null;
-		}
+		return null;
+	}
+	
+	public Movie find(int id) {
+		return movies.get(new Integer(id));
 	}
 	
 	public Movie createMovie(String title, String genre) {

@@ -43,13 +43,13 @@ public class Reader {
 		//genres
 
 		//
-		String genre = genres[random.nextInt(2 - 0 + 1) + 0];
 
 		//TODO: change on k machine
 		File dir = new File("C:/Users/IBM_ADMIN/workspace/COMP4601A2/resources/pages");
 		File[] directoryListing = dir.listFiles();
 		if (directoryListing != null) {
 			for (File f : directoryListing) {
+				String genre = genres[random.nextInt(2 - 0 + 1) + 0];
 				if(f.canRead()){
 					Document doc = Jsoup.parse(f, "UTF-8");
 					Element title = doc.select("title").first();
@@ -84,7 +84,8 @@ public class Reader {
 										  if(name.equals("score")){
 											  r.setScore(Double.parseDouble(content));
 											  reviewMap.put(prevUser, r);
-											  System.out.println("Adding user: " + prevUser + " score: " + Double.parseDouble(content) + " review: " + review);
+											  //System.out.println("usr1: " + prevUser);
+											  //System.out.println("Adding user: " + prevUser + " score: " + Double.parseDouble(content) + " review: " + review);
 										  }
 									}
 								}
@@ -93,13 +94,15 @@ public class Reader {
 								first = false;
 							}
 							prevUser = element.ownText();
+							//System.out.println("usr2: " + prevUser);
 							review = "";
 						} else if (element.tagName().equals("p")){
 							review += element.ownText();
 						}
 					}
 					
-					Movie m = MovieStore.getInstance().createMovie(title.text(), genre);
+					//System.out.println("title: " + title.ownText());
+					Movie m = MovieStore.getInstance().createMovie(title.ownText(), genre);
 					m.setReviews(reviewMap);
 					//m.setUsersAccessed(usersAccessed);
 				}
@@ -131,6 +134,7 @@ public class Reader {
 					List<String> reviewTexts = reviewedPages.eachText();
 					ArrayList<String> reviewedMovies = new ArrayList<String>();
 					for(String moviePage : reviewTexts){
+						//System.out.println(moviePage);
 						reviewedMovies.add(moviePage);
 					}
 					

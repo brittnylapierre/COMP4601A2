@@ -85,6 +85,19 @@ film!!!</p></body></html>
 		 * with one row containing information for a user.
 		 * */
 		
+		@Path("context")
+		@GET
+		@Produces(MediaType.TEXT_HTML)
+		public String context() {
+			Profiler profiler = new Profiler();
+			
+			profiler.profileUsers();
+			
+			return "<html> " + "<title>" + name + " context set</title>" + "<body><h1>" + name
+					+ " reset success</h1></body>" + "</html> ";
+		}
+		
+		
 		/* ANALYZES THE PROFILES MADE AND CREATES COMMUNITIES
 		 * KMEANS
 		 * You are to implement a RESTful web service /community using GET that, if run after the /context web service, 
