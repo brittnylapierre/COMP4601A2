@@ -5,6 +5,9 @@ package edu.carleton.comp4601.resources;
 */
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -21,7 +24,10 @@ public class Profiler {
 	
 	public Profiler() {}
 	
-	public void profileUsers(){
+	public void profileUsers() throws FileNotFoundException{
+		//TODO: change path on k machine
+		//PrintWriter pw = new PrintWriter(new File("C:/Users/IBM_ADMIN/workspace/COMP4601A2/user_profiles.csv"));
+        //StringBuilder sb = new StringBuilder();
 		//ArrayList<Double> dimensions = new ArrayList<Double>();
 		//[numhorror, avghorror, numaction, avgaction, numromance, avggromance]
 		
@@ -113,8 +119,25 @@ public class Profiler {
 			
 			user.setDimensions(userDataArray);
 			
-			System.out.println("User: " + name + userDataArray.toString());
+			//System.out.println("User: " + name + userDataArray.toString());
 			//}
+			
+			//sb.append(name + ",");
+	        //sb.append(userDataArray.toString());
+			/*int curr = 0;
+	        for(Double dataPoint : userDataArray){
+	        	if(curr != userDataArray.size()-1){
+		        	sb.append(Double.toString(dataPoint) + ",");
+	        	} else {
+		        	sb.append(Double.toString(dataPoint));
+	        	}
+	        	curr++;
+	        }*/
+	        //sb.append('\n');
 		}
+		/*System.out.println(sb.toString());
+        pw.write(sb.toString());
+        pw.close();*/
+		System.out.println("Done profiling...");
 	}
 }

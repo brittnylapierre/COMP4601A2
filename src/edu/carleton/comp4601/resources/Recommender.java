@@ -1,5 +1,6 @@
 package edu.carleton.comp4601.resources;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.ws.rs.GET;
@@ -91,10 +92,18 @@ film!!!</p></body></html>
 		public String context() {
 			Profiler profiler = new Profiler();
 			
-			profiler.profileUsers();
+			try {
+				profiler.profileUsers();
+				return "<html> " + "<title>" + name + " context set</title>" + "<body><h1>" + name
+						+ " reset success</h1></body>" + "</html> ";
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+				return "<html> " + "<title>" + name + " context set</title>" + "<body><h1>" + name
+						+ " reset fail</h1></body>" + "</html> ";
+			}
 			
-			return "<html> " + "<title>" + name + " context set</title>" + "<body><h1>" + name
-					+ " reset success</h1></body>" + "</html> ";
+			
 		}
 		
 		

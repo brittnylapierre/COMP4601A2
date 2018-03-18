@@ -42,7 +42,26 @@ public class Reader {
 		 * */
 		//genres
 
-		//
+		//Testing correct
+		/*File rdir = new File("C:/Users/IBM_ADMIN/workspace/COMP4601A2/resources/reviews");
+		File[] rdirectoryListing = rdir.listFiles();
+		int count = 0;
+		String prevName = "";
+		if (rdirectoryListing != null) {
+			for (File f : rdirectoryListing) {
+				String[] fnamearr = f.getName().split("-");
+				if(fnamearr.length > 0){
+					String name = fnamearr[0];
+					if(!name.equals(prevName)){
+						System.out.println("\nUser: " + name+ "\n");
+						count++;
+					}
+					prevName = name;
+				}
+			}
+		}
+		
+		System.out.println("Count of users who have reviewed: " + count);*/
 
 		//TODO: change on k machine
 		File dir = new File("C:/Users/IBM_ADMIN/workspace/COMP4601A2/resources/pages");
@@ -110,6 +129,8 @@ public class Reader {
 		} else {
 			System.out.println("error getting movies");
 		}
+
+		System.out.println("Done getting movies...");
 	}
 	
 	
@@ -145,6 +166,7 @@ public class Reader {
 		} else {
 			System.out.println("error getting users");
 		}
+		System.out.println("Done getting users...");
 
 	}
 
