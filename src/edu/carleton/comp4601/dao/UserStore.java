@@ -38,7 +38,6 @@ public class UserStore {
 		User u = new User(name);
 		
 		users.put(users.size(), u);
-		System.out.println("userz: " + users.toString());
 		return u;
 	}
 
