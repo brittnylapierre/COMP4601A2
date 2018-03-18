@@ -7,9 +7,10 @@ public class Movie {
 	String genre;
 	String title;
 	//<uname, review>
-	HashMap<String, String> reviews = new HashMap<String, String>();
+	HashMap<String, Review> reviews = new HashMap<String, Review>();
+	ArrayList<String> usersAccessed = new ArrayList<String>();
 	//a shows who, then p shows review.
-	
+
 	public Movie(String title, String genre) {
 		this.genre = genre;
 		this.title = title;
@@ -35,12 +36,22 @@ public class Movie {
 	}
 
 
-	public HashMap<String, String> getReviews() {
+	public HashMap<String, Review> getReviews() {
 		return reviews;
 	}
 	
-	public void setReviews(HashMap<String, String> reviews) {
+	public void setReviews(HashMap<String, Review> reviews) {
 		this.reviews = reviews;
 	}
+	
+	
+	public ArrayList<String> getUsersAccessed() {
+		return usersAccessed;
+	}
+
+	public void setUsersAccessed(ArrayList<String> usersAccessed) {
+		this.usersAccessed = usersAccessed;
+	}
+
 	
 }

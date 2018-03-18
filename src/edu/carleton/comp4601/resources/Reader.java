@@ -16,6 +16,7 @@ import org.jsoup.select.Elements;
 import edu.carleton.comp4601.dao.MovieStore;
 import edu.carleton.comp4601.dao.UserStore;
 import edu.carleton.comp4601.models.Movie;
+import edu.carleton.comp4601.models.Review;
 import edu.carleton.comp4601.models.User;
 
 //Reads in the users from the user html pages
@@ -53,30 +54,54 @@ public class Reader {
 					Document doc = Jsoup.parse(f, "UTF-8");
 					Element title = doc.select("title").first();
 
-					HashMap<String, String> reviewMap = new HashMap<String, String>();
+					HashMap<String, Review> reviewMap = new HashMap<String, Review>();
 					Elements elements = doc.body().select("*");
 
 					String review = "";
 					String prevUser = "";
+					//meta name="score"
 					boolean first = true;
+					File userDetailedReviewFile;
+					
+					ArrayList<String> usersAccessed = new ArrayList<String>();
 					for (Element element : elements) {
-						if(element.tagName() == "a"){
+						if(element.tagName().equals("a")){
 							//new user
 							if(!first){
-								//System.out.println("Adding user: " + prevUser + " review: " + review);
-								reviewMap.put(prevUser, review);
+								Review r = new Review(0, review);
+								userDetailedReviewFile = new File("C:/Users/IBM_ADMIN/workspace/COMP4601A2/resources/reviews/"+prevUser + "-" + title.ownText() +".html");
+								//System.out.println("C:/Users/IBM_ADMIN/workspace/COMP4601A2/resources/reviews/"+prevUser + "-" + title +".html");
+								if(userDetailedReviewFile.canRead()){
+									Document userDetailedReviewDoc = Jsoup.parse(userDetailedReviewFile, "UTF-8");
+									//System.out.println(userDetailedReviewDoc.html());
+
+									Elements metaTags = userDetailedReviewDoc.getElementsByTag("meta");
+									
+									
+									for (Element metaTag : metaTags) {
+										  String name = metaTag.attr("name");
+										  String content = metaTag.attr("content");
+										  if(name.equals("score")){
+											  r.setScore(Double.parseDouble(content));
+											  reviewMap.put(prevUser, r);
+											  System.out.println("Adding user: " + prevUser + " score: " + Double.parseDouble(content) + " review: " + review);
+										  }
+									}
+								}
+								//usersAccessed.add(prevUser);
 							} else {
 								first = false;
 							}
 							prevUser = element.ownText();
 							review = "";
-						} else if (element.tagName() == "p"){
+						} else if (element.tagName().equals("p")){
 							review += element.ownText();
 						}
 					}
 					
 					Movie m = MovieStore.getInstance().createMovie(title.text(), genre);
 					m.setReviews(reviewMap);
+					//m.setUsersAccessed(usersAccessed);
 				}
 		    }
 		} else {

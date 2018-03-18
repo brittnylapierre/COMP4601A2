@@ -53,7 +53,6 @@ public class MovieStore {
 		Movie m = new Movie(title, genre);
 		
 		movies.put(movies.size(), m);
-		System.out.println("userz: " + movies.toString());
 		return m;
 	}
 
