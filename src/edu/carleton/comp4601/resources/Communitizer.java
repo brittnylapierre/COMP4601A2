@@ -1,5 +1,5 @@
 package edu.carleton.comp4601.resources;
-
+//Creates communities from profiled users
 /*
  * {	
 		initialize	population;	
