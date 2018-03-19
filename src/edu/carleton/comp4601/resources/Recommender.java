@@ -2,14 +2,19 @@ package edu.carleton.comp4601.resources;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Enumeration;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriInfo;
+
+import edu.carleton.comp4601.dao.UserStore;
+import edu.carleton.comp4601.models.User;
 
 @Path("/rs")
 public class Recommender {
@@ -21,6 +26,8 @@ public class Recommender {
 		Request request;
 
 		private String name;
+
+		String[] genres = {"horror", "action", "romance"};
 
 		public Recommender() {
 			//reader = new Reader();
@@ -42,7 +49,7 @@ public class Recommender {
 		 * of the data in the comp4601/assignments/training directory; however, a tester might choose dir = "testing" 
 		 * to access data in the comp4601/assignments/testing/pages and comp4601/assignments/testing/users directories.
 		 * */
-		@Path("reset")
+		/*@Path("reset")
 		@GET
 		@Produces(MediaType.TEXT_HTML)
 		public String reset() {
@@ -50,12 +57,39 @@ public class Recommender {
 			try {
 				reader.readMovies();
 				reader.readUsers();
+				System.out.println("done reading.");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				//e.printStackTrace();
 				return "<html> " + "<title>" + name + " reset</title>" + "<body><h1>" + name
 						+ " failed</h1></body>" + "</html> ";
 			}
+			return "<html> " + "<title>" + name + " reset</title>" + "<body><h1>" + name
+					+ " reset success</h1></body>" + "</html> ";
+		}*/
+		
+		@Path("reset/{dir}")
+		@GET
+		@Produces(MediaType.TEXT_HTML)
+		public String reset(@PathParam("dir") String dir) {
+			Reader reader = new Reader();
+			try {
+				if(dir.equals("testing")){
+					reader.readMovies();
+					reader.readUsers();
+				} else if(dir.equals("pages")) {
+					reader.readMovies();
+				} else if(dir.equals("users")) {
+					reader.readUsers();
+				}
+				System.out.println("done reading.");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+				return "<html> " + "<title>" + name + " reset</title>" + "<body><h1>" + name
+						+ " failed</h1></body>" + "</html> ";
+			}
+			
 			return "<html> " + "<title>" + name + " reset</title>" + "<body><h1>" + name
 					+ " reset success</h1></body>" + "</html> ";
 		}
@@ -94,8 +128,31 @@ film!!!</p></body></html>
 			
 			try {
 				profiler.profileUsers();
+
+				String profileTableString = "<table style=\"border: 1px solid grey;border-collapse: collapse;\">";
+				profileTableString += "<th style=\"border: 1px solid grey;\">user</th>";
+				for(String genre : genres){
+					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " count</th>";
+					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " aggregate score</th>";
+					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " average count</th>";
+					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " movie page views</th>";
+					
+				}
+				profileTableString += "</tr>";
+				
+				for(Enumeration<User> us = UserStore.getInstance().getUsers().elements(); us.hasMoreElements();){
+					User user  = us.nextElement();
+					profileTableString += "<tr>";
+					profileTableString += "<td style=\"border: 1px solid grey;\">" + user.getName() + "</td>";
+					for(Double dataPoint : user.getDimensions()){
+						profileTableString += "<td style=\"border: 1px solid grey;\">" + Double.toString(dataPoint) + "</td>";
+					}
+					profileTableString += "</tr>";
+				}
+				profileTableString += "</table>";
+				
 				return "<html> " + "<title>" + name + " context set</title>" + "<body><h1>" + name
-						+ " reset success</h1></body>" + "</html> ";
+						+ " reset success</h1> "+profileTableString+" </body>" + "</html> ";
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				//e.printStackTrace();
