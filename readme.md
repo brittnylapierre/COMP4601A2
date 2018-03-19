@@ -9,3 +9,8 @@ See csv file for user profiles. (Also gets saved in the user objects in the user
 
 
 Remember to change the path to resources in the reader.
+
+To see profile results:
+
+nav to: http://localhost:8080/COMP4601A2/rs/reset/testing
+then: http://localhost:8080/COMP4601A2/rs/context
