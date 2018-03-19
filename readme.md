@@ -5,7 +5,7 @@ Correct in both the profiling and the testing.
 
 User Profile Datapoints: [genre-1 count, genre-1 aggregate score, genre-1 avg score, genre-1 page views, ...., genre-n count, genre-n aggregate score, genre-n avg score, genre-n page views]
 
-See excel file for output.
+See csv file for user profiles. (Also gets saved in the user objects in the user store)
 
 
 Remember to change the path to resources in the reader.
