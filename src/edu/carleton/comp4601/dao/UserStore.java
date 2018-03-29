@@ -5,6 +5,7 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import edu.carleton.comp4601.models.Movie;
 import edu.carleton.comp4601.models.User;
 
 public class UserStore {
@@ -35,21 +36,14 @@ public class UserStore {
 	}
 	
 	public User find(String name) {
-		int id = 0;
-		boolean found = false;
-		
 		for(Enumeration<User> us = users.elements(); us.hasMoreElements();){
-			if(us.nextElement().getName() == name){
-				found = true;
+			User u = us.nextElement();
+			//System.out.println("m titl: " +  m.getTitle() + " t: " + title);
+			if(u.getName().equals(name)){
+				return u;
 			}
-			id++;
 		}
-		
-		if(found){
-			return users.get(new Integer(id));
-		} else {
-			return null;
-		}
+		return null;
 	}
 	
 	

@@ -11,11 +11,13 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Random;
 
 import edu.carleton.comp4601.dao.MovieStore;
 import edu.carleton.comp4601.dao.UserStore;
 import edu.carleton.comp4601.models.Movie;
 import edu.carleton.comp4601.models.Review;
+import edu.carleton.comp4601.models.Sentiment;
 import edu.carleton.comp4601.models.User;
 
 public class Profiler {
@@ -46,17 +48,13 @@ public class Profiler {
 			ArrayList<String> revMovies = user.getReviewedMovies();
 
 			String name = user.getName();
-			//if(name.equals("A1EGDRTJYF3AZK")){
-				
-			
-			//System.out.print("USER " +  name);
-			//System.out.print("\n");
 			
 			HashMap<String, Double> userData = new HashMap<String, Double>();
 			for(String genre : genres){
 				userData.put(genre+"-count", 0.0);
 				userData.put(genre+"-agg-score", 0.0);
 				userData.put(genre+"-views", 0.0);
+				userData.put(genre+"-agg-sentiment", 0.0);
 			}
 			
 			for(String movieTitle : revMovies){
@@ -67,26 +65,20 @@ public class Profiler {
 					Review userReview = movie.getReviews().get(name);
 					String genre = movie.getGenre();
 					
-
-					//System.out.print("/nusers: " +  movie.getReviews().keySet().toString());
-					
 					if(movie.getReviews().keySet().contains(name)){
-						
-						//System.out.println("/n Movie" + movieTitle + " Genre " + genre + " num reviews " + movie.getReviews().size() + " user: " + name + " ur "  + userReview);
-						
-						
 						if(userReview != null){
 							Double count = userData.get(genre+"-count");//userReview
 							Double aggScore = userData.get(genre+"-agg-score");//userReview
+							Double aggSentiment = userData.get(genre+"-agg-sentiment");//userReview
 							
 							count += 1;
 							
 							aggScore = aggScore+userReview.getScore();
-							
-							//System.out.println(genre + " " + count + " " + aggScore);
+							aggSentiment = aggSentiment+userReview.getSentiment().getSentiment();
 							
 							userData.replace(genre+"-count", count);
 							userData.replace(genre+"-agg-score", aggScore);
+							userData.replace(genre+"-agg-sentiment", aggSentiment);
 						}
 					}
 					
@@ -103,21 +95,30 @@ public class Profiler {
 				Double count = userData.get(genre+"-count");//userReview
 				Double aggScore = userData.get(genre+"-agg-score");//userReview
 				Double views = userData.get(genre+"-views");//userReview
+				Double aggSentiment = userData.get(genre+"-agg-sentiment");//userReview
 
 				Double avgScore = 0.0;
+				Double avgSentiment = 0.0;
 				if(count > 0){
 					avgScore = aggScore / count;
+					avgSentiment = aggSentiment / count;
 				}
 				//userData.put(genre+"-avg-score", avgScore);
-				userDataArray.add(count);
-				userDataArray.add(aggScore);
-				userDataArray.add(avgScore);
-				userDataArray.add(views);
+				userDataArray.add(count); //num reviews
+				userDataArray.add(aggScore); //agg review score
+				userDataArray.add(avgScore); //avg review score
+				userDataArray.add(aggSentiment); //agg review sentiment
+				userDataArray.add(avgSentiment); //avg review sentiment
+				userDataArray.add(views); //number genre views
 				
 				//System.out.println(genre + " " + count + " " + aggScore + " " + avgScore + " " + views);
 			}
 			
 			user.setDimensions(userDataArray);
+			
+			//TODO: Give user a real community
+			Random rand = new Random();
+			user.setCommunity(rand.nextInt(3 - 1 + 1) + 1);
 			
 			//System.out.println("User: " + name + userDataArray.toString());
 			//}
@@ -138,6 +139,6 @@ public class Profiler {
 		/*System.out.println(sb.toString());
         pw.write(sb.toString());
         pw.close();*/
-		System.out.println("Done profiling...");
+		System.out.println("Done profiling.");
 	}
 }

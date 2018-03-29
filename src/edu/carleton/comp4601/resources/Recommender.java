@@ -1,9 +1,13 @@
 package edu.carleton.comp4601.resources;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.stream.Collectors;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -12,6 +16,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriInfo;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import edu.carleton.comp4601.dao.UserStore;
 import edu.carleton.comp4601.models.User;
@@ -76,14 +84,17 @@ public class Recommender {
 			Reader reader = new Reader();
 			try {
 				if(dir.equals("testing")){
+					reader.readSentiments();
 					reader.readMovies();
 					reader.readUsers();
 				} else if(dir.equals("pages")) {
 					reader.readMovies();
+				} else if(dir.equals("sentiments")) {
+					reader.readSentiments();
 				} else if(dir.equals("users")) {
 					reader.readUsers();
 				}
-				System.out.println("done reading.");
+				System.out.println("Done reading.");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				//e.printStackTrace();
@@ -136,6 +147,8 @@ film!!!</p></body></html>
 					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " count</th>";
 					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " aggregate score</th>";
 					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " average count</th>";
+					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " aggregate sentiment</th>";
+					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " average sentiment</th>";
 					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " movie page views</th>";
 					
 				}
@@ -152,17 +165,15 @@ film!!!</p></body></html>
 				}
 				profileTableString += "</table>";
 				System.out.println(profileTableString);
-				return "<html> " + "<title>" + name + " context set</title>" + "<body><h1>" + name
-						+ " reset success</h1> "+profileTableString+" </body>" + "</html> ";
 				
+				return "<html> " + "<title>" + name + " profiles set</title>" + "<body><h1>" + name
+						+ " profiles set</h1> "+profileTableString+" </body>" + "</html> ";
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				//e.printStackTrace();
-				return "<html> " + "<title>" + name + " context set</title>" + "<body><h1>" + name
-						+ " reset fail</h1></body>" + "</html> ";
+				return "<html> " + "<title>" + name + " profiles not set</title>" + "<body><h1>" + name
+						+ " profiles not set</h1></body>" + "</html> ";
 			}
-			
-			
 		}
 		
 		
@@ -173,6 +184,30 @@ film!!!</p></body></html>
 		 * which each row contains the community name (C-X, X = 1,..., m) followed by a cell containing a comma delimited 
 		 * list of user names. Should the community service be run before the context service an error should be generated.
 		 * */
+		@Path("community")
+		@GET
+		@Produces(MediaType.TEXT_HTML)
+		public String community() {
+			//TODO: implement real communities collections
+			String communityString = "";
+			ArrayList<ArrayList<String>> communitiesArr = new ArrayList<ArrayList<String>>();
+			communitiesArr.add(new ArrayList<String>()); 
+			communitiesArr.add(new ArrayList<String>()); 
+			communitiesArr.add(new ArrayList<String>()); 
+			for(Enumeration<User> us = UserStore.getInstance().getUsers().elements(); us.hasMoreElements();){
+				User user  = us.nextElement();
+				communitiesArr.get(user.getCommunity()-1).add(user.getName()); //bc added communities as 1-3
+			}
+			int count = 1;
+			for(ArrayList<String> community : communitiesArr){
+				communityString += "COMMUNITY " + count + ": ";
+				communityString += community.stream().collect(Collectors.joining(", ")) + "<br>";
+				count++;
+			}
+				
+			return "<html> " + "<title>" + name + " communities</title>" + "<body><h1>" + name
+						+ " communities</h1> "+communityString+" </body>" + "</html> ";
+		}
 		
 		/* 
 		 * You are to implement a RESTful web service /fetch/{user}/{page} using GET that retrieves a page from the 
@@ -180,6 +215,41 @@ film!!!</p></body></html>
 		 * with advertising. Your web service must consist of 2 frames, one containing the content of the requested 
 		 * page, and the other containing advertising.
 		 * */
+		@Path("fetch/{user}/{page}")
+		@GET
+		@Produces(MediaType.TEXT_HTML)
+		public String fetch(@PathParam("user") String user,
+							@PathParam("page") String page) {
+			try {
+				//Grab HTML from the dir then augment with advertisements. 
+				//TODO: use kelly's path var
+				String path = "C:/Users/IBM_ADMIN/workspace/COMP4601A2/resources/pages/" + page + ".html";
+				File moviePage = new File(path);
+				if(moviePage.canRead()){
+					Document movieDoc;
+					movieDoc = Jsoup.parse(moviePage, "UTF-8");
+					Element body = movieDoc.body();
+					User u = UserStore.getInstance().find(user);
+					if(u != null){
+						String addElementText = UserStore.getInstance().find(user).grabUserAdds();
+						body.append("<div>"
+								+ "<h3>Adverts!!!!!!!!!!!!!!!!! :D</h3>"
+								+ addElementText
+								+ "</div>");
+						return movieDoc.html();
+					}
+				}
+				return "<html> " + "<title>" + name + " fetch</title>" + "<body><h1>" + name
+						+ " 500 - error grabbing page</h1>  </body>" + "</html> ";
+			
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return "<html> " + "<title>" + name + " fetch</title>" + "<body><h1>" + name
+					+ " 404 - could not find page :-(</h1>  </body>" + "</html> ";
+		}	
 		
 		/* 
 		 * You are to document the communities that you have found in analyzing the test data in the web pages and users 
