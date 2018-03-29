@@ -20,7 +20,7 @@ import edu.carleton.comp4601.models.User;
 
 public class Profiler {
 
-	String[] genres = {"horror", "action", "romance"};
+	String[] genres = {"horror", "history", "romance","comedy","action","Documentary","Family","Sci-fi","Adventure","mystery"};
 	
 	public Profiler() {}
 	

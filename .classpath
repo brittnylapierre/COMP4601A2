@@ -42,5 +42,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/sda-1.0.4.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/lucene-queryparser-6.4.0.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/lucene-core-6.4.0.jar"/>
+	<classpathentry kind="lib" path="commons-lang3-3.7.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

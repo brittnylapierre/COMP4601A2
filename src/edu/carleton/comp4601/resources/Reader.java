@@ -3,11 +3,13 @@ package edu.carleton.comp4601.resources;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -22,13 +24,26 @@ import edu.carleton.comp4601.models.User;
 //Reads in the users from the user html pages
 //Reads in the movies from the movies pages, and tags them with a genre
 public class Reader {
+	String path= "/Users/kellymaclauchlan/code/mobile/a2/COMP4601A2/";
+
 	
+	// String path="C:/Users/IBM_ADMIN/workspace/COMP4601A2/";
 	public Reader(){
 		System.out.println("initialized reader...");
 	}
 	
 	Random random = new Random();  //for now
-	String[] genres = {"horror", "action", "romance"};
+	String[] genres = {"horror", "history", "romance","comedy","action","Documentary","Family","Sci-fi","Adventure","mystery"};
+	String[][] words={{"scary","jump","chills","kill","halloween","gore"},
+					  {"war","history","past","battle","film","america"},
+					  {"love","date","romantic","heart","sex","wedding"},
+					  {"comedy","funny","fun","family","joke","laugh"},
+					  {"guns","fight","adventure","action","superhero","hero"},
+					  {"documentary","portrail","life","celebrate","real","seen"},
+					  {"family","kids","fun","school","vacation","disney"},
+					  {"sci-fi","science","fiction","alien","time","effects"},
+					  {"adventure","quest","trip","clues","discover","Jungle"},
+					  {"mystery","clue","murder","find","police","killed"}};
 	
 	public void readMovies() throws IOException{
 		/*
@@ -64,7 +79,10 @@ public class Reader {
 		System.out.println("Count of users who have reviewed: " + count);*/
 
 		//TODO: change on k machine
-		File dir = new File("C:/Users/IBM_ADMIN/workspace/COMP4601A2/resources/pages");
+		//File dir = new File("C:/Users/mobile/a2/COMP4601A2/resources/pages");
+		//String path= "Users/kellymaclauchlan/code/mobile/a2/COMP4601A2/";
+		//String path="C:/Users/IBM_ADMIN/workspace/COMP4601A2/";
+		File dir = new File(path+"resources/pages/");
 		File[] directoryListing = dir.listFiles();
 		if (directoryListing != null) {
 			for (File f : directoryListing) {
@@ -88,7 +106,8 @@ public class Reader {
 							//new user
 							if(!first){
 								Review r = new Review(0, review);
-								userDetailedReviewFile = new File("C:/Users/IBM_ADMIN/workspace/COMP4601A2/resources/reviews/"+prevUser + "-" + title.ownText() +".html");
+								userDetailedReviewFile = new File(path+"resources/reviews/"+prevUser + "-" + title.ownText() +".html");
+								
 								//System.out.println("C:/Users/IBM_ADMIN/workspace/COMP4601A2/resources/reviews/"+prevUser + "-" + title +".html");
 								if(userDetailedReviewFile.canRead()){
 									Document userDetailedReviewDoc = Jsoup.parse(userDetailedReviewFile, "UTF-8");
@@ -121,8 +140,12 @@ public class Reader {
 					}
 					
 					//System.out.println("title: " + title.ownText());
+					//TODO Genre call here 
+					genre=chooseGenre(reviewMap);
 					Movie m = MovieStore.getInstance().createMovie(title.ownText(), genre);
 					m.setReviews(reviewMap);
+					
+					
 					//m.setUsersAccessed(usersAccessed);
 				}
 		    }
@@ -141,7 +164,7 @@ public class Reader {
 		 * ... all the reviews</body>
 		 * */
 		//TODO: change on k machine
-		File dir = new File("C:/Users/IBM_ADMIN/workspace/COMP4601A2/resources/users");
+		File dir = new File(path+"resources/users");
 		File[] directoryListing = dir.listFiles();
 		if (directoryListing != null) {
 			for (File f : directoryListing) {
@@ -168,6 +191,35 @@ public class Reader {
 		}
 		System.out.println("Done getting users...");
 
+	}
+	public String chooseGenre(HashMap<String, Review> reviewMap){
+		String allReviews="";
+		String genre="";
+		int[] count={0,0,0,0,0,0,0,0,0,0};
+		//put all reviews for the movie togeather
+		for(Review rev :reviewMap.values()){
+			allReviews+=rev.getReview()+" ";
+		}
+		int j=-1;
+		for(String[]word :words){
+			int c=0; 
+			j=j+1;
+			for(String w :word){
+				c+=StringUtils.countMatches(allReviews, w);
+			//c+=StringUtils.countMatches(allReviews, w);
+			}
+			count[j]=c;
+		}
+		int max=-1;
+		
+		for(int i=0;i<count.length;i++){
+			if(count[i]>max){
+				max=count[i];
+				genre=genres[i];
+			}
+		}
+		
+		return genre;
 	}
 
 }
