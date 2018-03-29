@@ -102,7 +102,6 @@ public class Reader {
 								if(userDetailedReviewFile.canRead()){
 									Document userDetailedReviewDoc = Jsoup.parse(userDetailedReviewFile, "UTF-8");
 									//System.out.println(userDetailedReviewDoc.html());
-
 									Elements metaTags = userDetailedReviewDoc.getElementsByTag("meta");
 									
 									for (Element metaTag : metaTags) {

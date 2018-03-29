@@ -164,13 +164,13 @@ film!!!</p></body></html>
 				}
 				profileTableString += "</table>";
 				
-				return "<html> " + "<title>" + name + " context set</title>" + "<body><h1>" + name
-						+ " reset success</h1> "+profileTableString+" </body>" + "</html> ";
+				return "<html> " + "<title>" + name + " profiles set</title>" + "<body><h1>" + name
+						+ " profiles set</h1> "+profileTableString+" </body>" + "</html> ";
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				//e.printStackTrace();
-				return "<html> " + "<title>" + name + " context set</title>" + "<body><h1>" + name
-						+ " reset fail</h1></body>" + "</html> ";
+				return "<html> " + "<title>" + name + " profiles not set</title>" + "<body><h1>" + name
+						+ " profiles not set</h1></body>" + "</html> ";
 			}
 		}
 		
@@ -204,7 +204,7 @@ film!!!</p></body></html>
 			}
 				
 			return "<html> " + "<title>" + name + " communities</title>" + "<body><h1>" + name
-						+ " reset success</h1> "+communityString+" </body>" + "</html> ";
+						+ " communities</h1> "+communityString+" </body>" + "</html> ";
 		}
 		
 		/* 
@@ -227,8 +227,16 @@ film!!!</p></body></html>
 					Document movieDoc;
 					movieDoc = Jsoup.parse(moviePage, "UTF-8");
 					Element body = movieDoc.body();
-					body.append("<div><h3>Adverts!!!!!!!!!!!!!!!!! :D</h3></div>");
-					return movieDoc.html();
+					User u = UserStore.getInstance().find(user);
+					System.out.println(u);
+					if(u != null){
+						String addElementText = UserStore.getInstance().find(user).grabUserAdds();
+						body.append("<div>"
+								+ "<h3>Adverts!!!!!!!!!!!!!!!!! :D</h3>"
+								+ addElementText
+								+ "</div>");
+						return movieDoc.html();
+					}
 				}
 				return "<html> " + "<title>" + name + " fetch</title>" + "<body><h1>" + name
 						+ " 500 - error grabbing page</h1>  </body>" + "</html> ";
