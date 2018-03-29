@@ -1,7 +1,9 @@
 package edu.carleton.comp4601.resources;
 
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,9 +16,11 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import edu.carleton.comp4601.dao.MovieStore;
+import edu.carleton.comp4601.dao.SentimentStore;
 import edu.carleton.comp4601.dao.UserStore;
 import edu.carleton.comp4601.models.Movie;
 import edu.carleton.comp4601.models.Review;
+import edu.carleton.comp4601.models.Sentiment;
 import edu.carleton.comp4601.models.User;
 
 //Reads in the users from the user html pages
@@ -62,7 +66,7 @@ public class Reader {
 		}
 		
 		System.out.println("Count of users who have reviewed: " + count);*/
-
+		
 		//TODO: change on k machine
 		File dir = new File("C:/Users/IBM_ADMIN/workspace/COMP4601A2/resources/pages");
 		File[] directoryListing = dir.listFiles();
@@ -81,13 +85,18 @@ public class Reader {
 					//meta name="score"
 					boolean first = true;
 					File userDetailedReviewFile;
-					
+					//CHECK IF SENTIMENT
+					//CHECK REVIEWS 
 					ArrayList<String> usersAccessed = new ArrayList<String>();
 					for (Element element : elements) {
 						if(element.tagName().equals("a")){
 							//new user
 							if(!first){
-								Review r = new Review(0, review);
+								Sentiment s = SentimentStore.getInstance().find(prevUser + "-" + title.ownText());
+								if(s == null){
+									s = new Sentiment(prevUser + "-" + title.ownText() + ".html", 0); //neutral default
+								}
+								Review r = new Review(0, review, s);
 								userDetailedReviewFile = new File("C:/Users/IBM_ADMIN/workspace/COMP4601A2/resources/reviews/"+prevUser + "-" + title.ownText() +".html");
 								//System.out.println("C:/Users/IBM_ADMIN/workspace/COMP4601A2/resources/reviews/"+prevUser + "-" + title +".html");
 								if(userDetailedReviewFile.canRead()){
@@ -96,15 +105,12 @@ public class Reader {
 
 									Elements metaTags = userDetailedReviewDoc.getElementsByTag("meta");
 									
-									
 									for (Element metaTag : metaTags) {
 										  String name = metaTag.attr("name");
 										  String content = metaTag.attr("content");
 										  if(name.equals("score")){
 											  r.setScore(Double.parseDouble(content));
 											  reviewMap.put(prevUser, r);
-											  //System.out.println("usr1: " + prevUser);
-											  //System.out.println("Adding user: " + prevUser + " score: " + Double.parseDouble(content) + " review: " + review);
 										  }
 									}
 								}
@@ -119,6 +125,7 @@ public class Reader {
 							review += element.ownText();
 						}
 					}
+					
 					
 					//System.out.println("title: " + title.ownText());
 					Movie m = MovieStore.getInstance().createMovie(title.ownText(), genre);
@@ -155,7 +162,6 @@ public class Reader {
 					List<String> reviewTexts = reviewedPages.eachText();
 					ArrayList<String> reviewedMovies = new ArrayList<String>();
 					for(String moviePage : reviewTexts){
-						//System.out.println(moviePage);
 						reviewedMovies.add(moviePage);
 					}
 					
@@ -166,8 +172,36 @@ public class Reader {
 		} else {
 			System.out.println("error getting users");
 		}
+		
 		System.out.println("Done getting users...");
 
+	}
+	
+
+	public void readSentiments() throws IOException{
+		File csv = new File("C:/Users/IBM_ADMIN/workspace/COMP4601A2/resources/sentiment-reviews-individual.csv");
+		BufferedReader reader = new BufferedReader(new FileReader(csv));
+		String line = null;
+		int lineNum = 0;
+		while((line = reader.readLine()) != null){
+			if(lineNum > 0){
+				String[] cols = line.split(",");
+				if(cols.length >= 6){
+					String movieUserId = cols[0];
+					int[] data = { 
+							Integer.parseInt(cols[1]), 
+							Integer.parseInt(cols[2]), 
+							Integer.parseInt(cols[3]), 
+							Integer.parseInt(cols[4]), 
+							Integer.parseInt(cols[5])
+						};
+					SentimentStore.getInstance().createSentiment(movieUserId, data);
+				}
+			}
+			lineNum++;
+		}
+		reader.close();
+		System.out.print("Done getting sentiments...");
 	}
 
 }

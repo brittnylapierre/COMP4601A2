@@ -75,14 +75,17 @@ public class Recommender {
 			Reader reader = new Reader();
 			try {
 				if(dir.equals("testing")){
+					reader.readSentiments();
 					reader.readMovies();
 					reader.readUsers();
 				} else if(dir.equals("pages")) {
 					reader.readMovies();
+				} else if(dir.equals("sentiments")) {
+					reader.readSentiments();
 				} else if(dir.equals("users")) {
 					reader.readUsers();
 				}
-				System.out.println("done reading.");
+				System.out.println("Done reading.");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				//e.printStackTrace();
@@ -135,6 +138,8 @@ film!!!</p></body></html>
 					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " count</th>";
 					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " aggregate score</th>";
 					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " average count</th>";
+					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " aggregate sentiment</th>";
+					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " average sentiment</th>";
 					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " movie page views</th>";
 					
 				}
@@ -159,8 +164,6 @@ film!!!</p></body></html>
 				return "<html> " + "<title>" + name + " context set</title>" + "<body><h1>" + name
 						+ " reset fail</h1></body>" + "</html> ";
 			}
-			
-			
 		}
 		
 		

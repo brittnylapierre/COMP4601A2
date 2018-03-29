@@ -9,6 +9,7 @@ public class Movie {
 	//<uname, review>
 	HashMap<String, Review> reviews = new HashMap<String, Review>();
 	ArrayList<String> usersAccessed = new ArrayList<String>();
+	HashMap<String, Sentiment> sentiments = new HashMap<String, Sentiment>();
 	//a shows who, then p shows review.
 
 	public Movie(String title, String genre) {
