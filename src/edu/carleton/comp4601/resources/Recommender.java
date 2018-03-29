@@ -1,11 +1,13 @@
 package edu.carleton.comp4601.resources;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.stream.Collectors;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -14,6 +16,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriInfo;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import edu.carleton.comp4601.dao.UserStore;
 import edu.carleton.comp4601.models.User;
@@ -180,25 +186,7 @@ film!!!</p></body></html>
 		@GET
 		@Produces(MediaType.TEXT_HTML)
 		public String community() {
-			//Profiler profiler = new Profiler();
-
-				/*profiler.profileUsers();
-
-				String profileTableString = "<table style=\"border: 1px solid grey;border-collapse: collapse;\">";
-				profileTableString += "<th style=\"border: 1px solid grey;\">user</th>";
-				for(String genre : genres){
-					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " count</th>";
-					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " aggregate score</th>";
-					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " average count</th>";
-					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " aggregate sentiment</th>";
-					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " average sentiment</th>";
-					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " movie page views</th>";
-					
-				}
-				profileTableString += "</tr>";*/
-				
-				//profileTableString += "</table>";
-			//TODO: implement real commuities collections
+			//TODO: implement real communities collections
 			String communityString = "";
 			ArrayList<ArrayList<String>> communitiesArr = new ArrayList<ArrayList<String>>();
 			communitiesArr.add(new ArrayList<String>()); 
@@ -211,16 +199,12 @@ film!!!</p></body></html>
 			int count = 1;
 			for(ArrayList<String> community : communitiesArr){
 				communityString += "COMMUNITY " + count + ": ";
-				/*for(String userName : community){
-					communityString +=
-				}*/
 				communityString += community.stream().collect(Collectors.joining(", ")) + "<br>";
 				count++;
 			}
 				
 			return "<html> " + "<title>" + name + " communities</title>" + "<body><h1>" + name
 						+ " reset success</h1> "+communityString+" </body>" + "</html> ";
-
 		}
 		
 		/* 
@@ -229,6 +213,34 @@ film!!!</p></body></html>
 		 * with advertising. Your web service must consist of 2 frames, one containing the content of the requested 
 		 * page, and the other containing advertising.
 		 * */
+		@Path("fetch/{user}/{page}")
+		@GET
+		@Produces(MediaType.TEXT_HTML)
+		public String fetch(@PathParam("user") String user,
+							@PathParam("page") String page) {
+			try {
+				//Grab HTML from the dir then augment with advertisements. 
+				//TODO: use kelly's path var
+				String path = "C:/Users/IBM_ADMIN/workspace/COMP4601A2/resources/pages/" + page + ".html";
+				File moviePage = new File(path);
+				if(moviePage.canRead()){
+					Document movieDoc;
+					movieDoc = Jsoup.parse(moviePage, "UTF-8");
+					Element body = movieDoc.body();
+					body.append("<div><h3>Adverts!!!!!!!!!!!!!!!!! :D</h3></div>");
+					return movieDoc.html();
+				}
+				return "<html> " + "<title>" + name + " fetch</title>" + "<body><h1>" + name
+						+ " 500 - error grabbing page</h1>  </body>" + "</html> ";
+			
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return "<html> " + "<title>" + name + " fetch</title>" + "<body><h1>" + name
+					+ " 404 - could not find page :-(</h1>  </body>" + "</html> ";
+		}	
 		
 		/* 
 		 * You are to document the communities that you have found in analyzing the test data in the web pages and users 
