@@ -228,7 +228,6 @@ film!!!</p></body></html>
 					movieDoc = Jsoup.parse(moviePage, "UTF-8");
 					Element body = movieDoc.body();
 					User u = UserStore.getInstance().find(user);
-					System.out.println(u);
 					if(u != null){
 						String addElementText = UserStore.getInstance().find(user).grabUserAdds();
 						body.append("<div>"

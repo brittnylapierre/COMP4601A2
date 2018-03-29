@@ -200,7 +200,7 @@ public class Reader {
 			lineNum++;
 		}
 		reader.close();
-		System.out.print("Done getting sentiments...");
+		System.out.print("Done getting sentiments...\n");
 	}
 
 }
