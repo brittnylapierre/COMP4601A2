@@ -12,5 +12,13 @@ Remember to change the path to resources in the reader.
 
 To see profile results:
 
-nav to: http://localhost:8080/COMP4601A2/rs/reset/testing
-then: http://localhost:8080/COMP4601A2/rs/context
+nav to: http://localhost:8080/COMP4601A2/rs/reset/testing this will read in the movies, users, and sentiments
+then: http://localhost:8080/COMP4601A2/rs/context will profile the users
+
+To see communities use:
+http://localhost:8080/COMP4601A2/rs/community
+
+And to view a page as a user use:
+http://localhost:8080/COMP4601A2/rs/fetch/{user}/{page}
+ex: http://localhost:8080/COMP4601A2/rs/fetch/A15G70V9OBTOVO/078062565X
+
