@@ -6,6 +6,7 @@ public class User {
 	String	name;
 	ArrayList<Double> dimensions = new ArrayList<Double>();
 	ArrayList<String> reviewedMovies = new ArrayList<String>();
+	int community;
 
 	public User(String name) {
 		this.name = name;
@@ -35,4 +36,11 @@ public class User {
 		this.reviewedMovies = reviewedMovies;
 	}
 	
+	public int getCommunity() {
+		return community;
+	}
+
+	public void setCommunity(int community) {
+		this.community = community;
+	}
 }

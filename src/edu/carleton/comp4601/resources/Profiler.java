@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Random;
 
 import edu.carleton.comp4601.dao.MovieStore;
 import edu.carleton.comp4601.dao.UserStore;
@@ -114,6 +115,10 @@ public class Profiler {
 			}
 			
 			user.setDimensions(userDataArray);
+			
+			//TODO: Give user a real community
+			Random rand = new Random();
+			user.setCommunity(rand.nextInt(3 - 1 + 1) + 1);
 			
 			//System.out.println("User: " + name + userDataArray.toString());
 			//}

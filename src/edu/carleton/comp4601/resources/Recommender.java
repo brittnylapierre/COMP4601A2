@@ -2,7 +2,9 @@ package edu.carleton.comp4601.resources;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -174,6 +176,52 @@ film!!!</p></body></html>
 		 * which each row contains the community name (C-X, X = 1,..., m) followed by a cell containing a comma delimited 
 		 * list of user names. Should the community service be run before the context service an error should be generated.
 		 * */
+		@Path("community")
+		@GET
+		@Produces(MediaType.TEXT_HTML)
+		public String community() {
+			//Profiler profiler = new Profiler();
+
+				/*profiler.profileUsers();
+
+				String profileTableString = "<table style=\"border: 1px solid grey;border-collapse: collapse;\">";
+				profileTableString += "<th style=\"border: 1px solid grey;\">user</th>";
+				for(String genre : genres){
+					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " count</th>";
+					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " aggregate score</th>";
+					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " average count</th>";
+					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " aggregate sentiment</th>";
+					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " average sentiment</th>";
+					profileTableString += "<th style=\"border: 1px solid grey;\">" + genre + " movie page views</th>";
+					
+				}
+				profileTableString += "</tr>";*/
+				
+				//profileTableString += "</table>";
+			//TODO: implement real commuities collections
+			String communityString = "";
+			ArrayList<ArrayList<String>> communitiesArr = new ArrayList<ArrayList<String>>();
+			communitiesArr.add(new ArrayList<String>()); 
+			communitiesArr.add(new ArrayList<String>()); 
+			communitiesArr.add(new ArrayList<String>()); 
+			for(Enumeration<User> us = UserStore.getInstance().getUsers().elements(); us.hasMoreElements();){
+				User user  = us.nextElement();
+				communitiesArr.get(user.getCommunity()-1).add(user.getName()); //bc added communities as 1-3
+			}
+			int count = 1;
+			for(ArrayList<String> community : communitiesArr){
+				communityString += "COMMUNITY " + count + ": ";
+				/*for(String userName : community){
+					communityString +=
+				}*/
+				communityString += community.stream().collect(Collectors.joining(", ")) + "<br>";
+				count++;
+			}
+				
+			return "<html> " + "<title>" + name + " communities</title>" + "<body><h1>" + name
+						+ " reset success</h1> "+communityString+" </body>" + "</html> ";
+
+		}
 		
 		/* 
 		 * You are to implement a RESTful web service /fetch/{user}/{page} using GET that retrieves a page from the 
