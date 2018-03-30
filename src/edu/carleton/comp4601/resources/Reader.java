@@ -37,10 +37,10 @@ import edu.carleton.comp4601.models.User;
 //Reads in the users from the user html pages
 //Reads in the movies from the movies pages, and tags them with a genre
 public class Reader {
-	String path= "/Users/kellymaclauchlan/code/mobile/a2/COMP4601A2/";
+	//String path= "/Users/kellymaclauchlan/code/mobile/a2/COMP4601A2/";
 
 	
-	// String path="C:/Users/IBM_ADMIN/workspace/COMP4601A2/";
+	String path="C:/Users/IBM_ADMIN/workspace/COMP4601A2/";
 	public Reader(){
 		System.out.println("initialized reader...");
 	}
@@ -59,38 +59,6 @@ public class Reader {
 					  {"mystery","clue","murder","find","police","killed"}};
 	
 	public void readMovies() throws IOException{
-		/*
-		 * <head><title>078062565X</title></head>
-		 * <body><a href="../users/A29QA79VLQGHY6.html">A29QA79VLQGHY6</a><br/>
-		 * <p>Ray Harryhausen never forgot...</p>
-		 * 
-		 * ...
-		 * 
-		 * </body>
-		 * */
-		//genres
-
-		//Testing correct
-		/*File rdir = new File("C:/Users/IBM_ADMIN/workspace/COMP4601A2/resources/reviews");
-		File[] rdirectoryListing = rdir.listFiles();
-		int count = 0;
-		String prevName = "";
-		if (rdirectoryListing != null) {
-			for (File f : rdirectoryListing) {
-				String[] fnamearr = f.getName().split("-");
-				if(fnamearr.length > 0){
-					String name = fnamearr[0];
-					if(!name.equals(prevName)){
-						System.out.println("\nUser: " + name+ "\n");
-						count++;
-					}
-					prevName = name;
-				}
-			}
-		}
-		
-		System.out.println("Count of users who have reviewed: " + count);*/
-		
 		//TODO: change on k machine
 		//File dir = new File("C:/Users/mobile/a2/COMP4601A2/resources/pages");
 		//String path= "Users/kellymaclauchlan/code/mobile/a2/COMP4601A2/";
@@ -211,7 +179,7 @@ public class Reader {
 		String allReviews="";
 		String genre="";
 		int[] count={0,0,0,0,0,0,0,0,0,0};
-		//put all reviews for the movie togeather
+		//put all reviews for the movie together
 		for(Review rev :reviewMap.values()){
 			allReviews+=rev.getReview()+" ";
 		}
