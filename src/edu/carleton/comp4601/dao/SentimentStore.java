@@ -26,6 +26,9 @@ public class SentimentStore {
 		sentiments = new ConcurrentHashMap<Integer, Sentiment>();
 	}
 	
+	public void add(Sentiment s){
+		this.sentiments.put(this.sentiments.size(), s);
+	}
 	
 	public Sentiment find(String movieUserId) {
 		for(Enumeration<Sentiment> ms = sentiments.elements(); ms.hasMoreElements();){

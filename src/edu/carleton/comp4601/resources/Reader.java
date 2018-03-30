@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -15,6 +16,14 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.MongoClient;
+
+import edu.carleton.comp4601.dao.Documents;
 import edu.carleton.comp4601.dao.MovieStore;
 import edu.carleton.comp4601.dao.SentimentStore;
 import edu.carleton.comp4601.dao.UserStore;
@@ -87,7 +96,7 @@ public class Reader {
 					File userDetailedReviewFile;
 					//CHECK IF SENTIMENT
 					//CHECK REVIEWS 
-					ArrayList<String> usersAccessed = new ArrayList<String>();
+					//ArrayList<String> usersAccessed = new ArrayList<String>();
 					for (Element element : elements) {
 						if(element.tagName().equals("a")){
 							//new user
@@ -202,5 +211,4 @@ public class Reader {
 		reader.close();
 		System.out.print("Done getting sentiments...\n");
 	}
-
 }

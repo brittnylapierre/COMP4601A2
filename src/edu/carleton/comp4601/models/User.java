@@ -11,9 +11,16 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
+import com.mongodb.BasicDBObject;
+
 import sun.misc.BASE64Encoder;
 import sun.misc.BASE64Decoder;
-public class User {
+
+public class User extends BasicDBObject {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3208707355807340412L;
 	String	name;
 	ArrayList<Double> dimensions = new ArrayList<Double>();
 	ArrayList<String> reviewedMovies = new ArrayList<String>();

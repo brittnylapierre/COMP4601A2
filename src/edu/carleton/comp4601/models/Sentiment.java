@@ -1,6 +1,12 @@
 package edu.carleton.comp4601.models;
 
-public class Sentiment {
+import com.mongodb.BasicDBObject;
+
+public class Sentiment extends BasicDBObject  {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8287894178721567230L;
 	// [1, 0.5, 0, -0.5, 1]
 	/* Multiply these values by the numbers in the sentiment row, 
 	then add them and see how close it is to the original total for 

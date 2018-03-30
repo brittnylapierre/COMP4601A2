@@ -5,7 +5,6 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import edu.carleton.comp4601.models.Movie;
 import edu.carleton.comp4601.models.User;
 
 public class UserStore {
@@ -29,6 +28,10 @@ public class UserStore {
 	
 	public UserStore() {
 		users = new ConcurrentHashMap<Integer, User>();
+	}
+	
+	public void add(User u){
+		users.put(users.size(), u);
 	}
 	
 	public User find(int id) {

@@ -3,13 +3,19 @@ package edu.carleton.comp4601.models;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Movie {
+import com.mongodb.BasicDBObject;
+
+public class Movie extends BasicDBObject {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3292716895447573617L;
 	String genre;
 	String title;
 	//<uname, review>
 	HashMap<String, Review> reviews = new HashMap<String, Review>();
 	ArrayList<String> usersAccessed = new ArrayList<String>();
-	HashMap<String, Sentiment> sentiments = new HashMap<String, Sentiment>();
+	//HashMap<String, Sentiment> sentiments = new HashMap<String, Sentiment>();
 	//a shows who, then p shows review.
 
 	public Movie(String title, String genre) {

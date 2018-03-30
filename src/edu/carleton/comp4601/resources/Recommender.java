@@ -105,6 +105,35 @@ public class Recommender {
 					+ " reset success</h1></body>" + "</html> ";
 		}
 		
+		
+		@Path("resetdb/{dir}")
+		@GET
+		@Produces(MediaType.TEXT_HTML)
+		public String resetDB(@PathParam("dir") String dir) {
+			//try {
+				if(dir.equals("testing")){
+					DBReadWriter.readSentimentsFromDB();
+					DBReadWriter.readMoviesFromDB();
+					DBReadWriter.readUsersFromDB();
+				} else if(dir.equals("pages")) {
+					DBReadWriter.readMoviesFromDB();
+				} else if(dir.equals("sentiments")) {
+					DBReadWriter.readSentimentsFromDB();
+				} else if(dir.equals("users")) {
+					DBReadWriter.readUsersFromDB();
+				}
+				System.out.println("Done reading.");
+			//} catch (IOException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+				return "<html> " + "<title>" + name + " reset</title>" + "<body><h1>" + name
+						+ " done reading in from db</h1></body>" + "</html> ";
+			//}
+			
+			//return "<html> " + "<title>" + name + " reset</title>" + "<body><h1>" + name
+					//+ " reset success</h1></body>" + "</html> ";
+		}
+		
 		//GENRES, NUM ACCESS PER GENRE
 		//diversity of genre, volume of content consumed, 
 		/* 
@@ -139,6 +168,7 @@ film!!!</p></body></html>
 			
 			try {
 				profiler.profileUsers();
+				DBReadWriter.writeAll();
 
 				String profileTableString = "<table style=\"border: 1px solid grey;border-collapse: collapse;\">";
 				profileTableString += "<th style=\"border: 1px solid grey;\">user</th>";

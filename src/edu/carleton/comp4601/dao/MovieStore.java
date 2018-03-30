@@ -28,6 +28,11 @@ public class MovieStore {
 	}
 	
 	
+	public void add(Movie m){
+		movies.put(movies.size(), m);
+	}
+	
+	
 	public Movie find(String title) {
 		for(Enumeration<Movie> ms = movies.elements(); ms.hasMoreElements();){
 			Movie m = ms.nextElement();
