@@ -35,7 +35,8 @@ public class Recommender {
 
 		private String name;
 
-		String[] genres = {"horror", "action", "romance"};
+		String[] genres = {"horror", "history", "romance","comedy","action","Documentary","Family","Sci-fi","Adventure","mystery"};
+		
 
 		public Recommender() {
 			//reader = new Reader();
@@ -192,6 +193,7 @@ film!!!</p></body></html>
 					profileTableString += "</tr>";
 				}
 				profileTableString += "</table>";
+				System.out.println(profileTableString);
 				
 				return "<html> " + "<title>" + name + " profiles set</title>" + "<body><h1>" + name
 						+ " profiles set</h1> "+profileTableString+" </body>" + "</html> ";
