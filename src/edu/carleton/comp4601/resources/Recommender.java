@@ -34,12 +34,12 @@ public class Recommender {
 		Request request;
 
 		private String name;
+		private String ROOT = "C:/Users/IBM_ADMIN/workspace/COMP4601A2/";
 
 		String[] genres = {"horror", "history", "romance","comedy","action","Documentary","Family","Sci-fi","Adventure","mystery"};
 		
 
 		public Recommender() {
-			//reader = new Reader();
 			name = "Brittny and Kelly RS";
 		}
 		
@@ -49,6 +49,7 @@ public class Recommender {
 			return "<html> " + "<title>" + name + "</title>" + "<body><h1>" + name
 					+ "</h1></body>" + "</html> ";
 		}
+		
 		/*
 		 * You are to implement a RESTful web service /reset/{dir} using GET that initializes your system. 
 		 * This service should then allow the web services in (8)-(12) below to run. This service is a testing 
@@ -58,24 +59,6 @@ public class Recommender {
 		 * of the data in the comp4601/assignments/training directory; however, a tester might choose dir = "testing" 
 		 * to access data in the comp4601/assignments/testing/pages and comp4601/assignments/testing/users directories.
 		 * */
-		/*@Path("reset")
-		@GET
-		@Produces(MediaType.TEXT_HTML)
-		public String reset() {
-			Reader reader = new Reader();
-			try {
-				reader.readMovies();
-				reader.readUsers();
-				System.out.println("done reading.");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
-				return "<html> " + "<title>" + name + " reset</title>" + "<body><h1>" + name
-						+ " failed</h1></body>" + "</html> ";
-			}
-			return "<html> " + "<title>" + name + " reset</title>" + "<body><h1>" + name
-					+ " reset success</h1></body>" + "</html> ";
-		}*/
 		
 		@Path("reset/{dir}")
 		@GET
@@ -111,7 +94,6 @@ public class Recommender {
 		@GET
 		@Produces(MediaType.TEXT_HTML)
 		public String resetDB(@PathParam("dir") String dir) {
-			//try {
 				if(dir.equals("testing")){
 					DBReadWriter.readSentimentsFromDB();
 					DBReadWriter.readMoviesFromDB();
@@ -124,37 +106,11 @@ public class Recommender {
 					DBReadWriter.readUsersFromDB();
 				}
 				System.out.println("Done reading.");
-			//} catch (IOException e) {
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
 				return "<html> " + "<title>" + name + " reset</title>" + "<body><h1>" + name
 						+ " done reading in from db</h1></body>" + "</html> ";
-			//}
-			
-			//return "<html> " + "<title>" + name + " reset</title>" + "<body><h1>" + name
-					//+ " reset success</h1></body>" + "</html> ";
 		}
 		
-		//GENRES, NUM ACCESS PER GENRE
-		//diversity of genre, volume of content consumed, 
-		/* 
-		 * xi = {xi1, xi2, xi2, ...}
-		 *       # comedy, # horror, # romance, # action, #drama, total
-		 *       
-<html><head><title>0790701251</title>
-<meta name="userId" content="A100JCBNALJFAW">
-<meta name="profileName" content="eze543113 "EZE"">
-<meta name="helpfulness" content="2/3">
-<meta name="score" content="5.0">
-<meta name="time" content="1157932800">
-<meta name="summary" content="wow stan could sure make a powerfull movie but what else is new">
-</head
-><body><p>great powerfull movie this was,, i really enjoy how stan dosent have to add a score to make the drama 
-more powerfull thats how good the directing is. i also enjoy the story very much. i really dont see many movies 
-that show the break down people feel in boot camp. the only bad thing is it was full screen but still i love this 
-film!!!</p></body></html>
-		
-		 CREATES PROFILE DATA FOR USERS
+		 /* CREATES PROFILE DATA FOR USERS
 		 * You are to implement a RESTful web service /context using GET that analyzes the web pages and returns an 
 		 * HTML representation of the profiles for users. The HTML returned must clearly show what features are 
 		 * being used as part of the profile for a user. It is expected that the response would contain an HTML table 
@@ -259,8 +215,7 @@ film!!!</p></body></html>
 							@PathParam("page") String page) {
 			try {
 				//Grab HTML from the dir then augment with advertisements. 
-				//TODO: use kelly's path var
-				String path = "C:/Users/IBM_ADMIN/workspace/COMP4601A2/resources/pages/" + page + ".html";
+				String path = ROOT + "resources/pages/" + page + ".html";
 				File moviePage = new File(path);
 				if(moviePage.canRead()){
 					Document movieDoc;
@@ -300,6 +255,4 @@ film!!!</p></body></html>
 		 * C-X, X = 1,..., m. NOTE: It is reasonable to expect that several pieces of advertising would be provided for 
 		 * a particular community. This is for you to design and document.
 		 * */
-		
-		
 }
