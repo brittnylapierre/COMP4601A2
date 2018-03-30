@@ -168,7 +168,6 @@ film!!!</p></body></html>
 			
 			try {
 				profiler.profileUsers();
-				DBReadWriter.writeAll();
 
 				String profileTableString = "<table style=\"border: 1px solid grey;border-collapse: collapse;\">";
 				profileTableString += "<th style=\"border: 1px solid grey;\">user</th>";
@@ -204,6 +203,14 @@ film!!!</p></body></html>
 			}
 		}
 		
+		@Path("write")
+		@GET
+		@Produces(MediaType.TEXT_HTML)
+		public String write() {
+			DBReadWriter.writeAll();
+			return "<html> " + "<title>" + name + " all objs written to db</title>" + "<body><h1>" + name
+					+ " all objs written to db</h1></body>" + "</html> ";
+		}
 		
 		/* ANALYZES THE PROFILES MADE AND CREATES COMMUNITIES
 		 * KMEANS

@@ -154,7 +154,6 @@ public class DBReadWriter {
 				Movie m = new Movie(title, genre);
 				m.setUsersAccessed(usersAccessed);
 				m.setReviews(reviews);
-				System.out.println(title);
 			 	MovieStore.getInstance().add(m);
 			}
 		    mongoClient.close();

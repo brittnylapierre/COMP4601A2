@@ -15,6 +15,12 @@ To see profile results:
 nav to: http://localhost:8080/COMP4601A2/rs/reset/testing this will read in the movies, users, and sentiments
 then: http://localhost:8080/COMP4601A2/rs/context will profile the users
 
+After running these two paths you can now save the inf to the database, and load it in from the database instead of parsing the files again.
+
+Run: http://localhost:8080/COMP4601A2/rs/write to save the objs to the database
+
+And then when restarting the program, run http://localhost:8080/COMP4601A2/rs/resetdb/testing instead of reset/testing. You won't have to profile the users again.
+
 To see communities use:
 http://localhost:8080/COMP4601A2/rs/community
 
