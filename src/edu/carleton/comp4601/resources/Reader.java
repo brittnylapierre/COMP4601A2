@@ -37,26 +37,26 @@ import edu.carleton.comp4601.models.User;
 //Reads in the users from the user html pages
 //Reads in the movies from the movies pages, and tags them with a genre
 public class Reader {
-	//String path= "/Users/kellymaclauchlan/code/mobile/a2/COMP4601A2/";
+	String path= "/Users/kellymaclauchlan/code/mobile/a2/COMP4601A2/";
 
 	
-	String path="C:/Users/IBM_ADMIN/workspace/COMP4601A2/";
+	//String path="C:/Users/IBM_ADMIN/workspace/COMP4601A2/";
 	public Reader(){
 		System.out.println("initialized reader...");
 	}
-	
+	 
 	Random random = new Random();  //for now
 	String[] genres = {"horror", "history", "romance","comedy","action","Documentary","Family","Sci-fi","Adventure","mystery"};
-	String[][] words={{"scary","jump","chills","kill","halloween","gore"},
-					  {"war","history","past","battle","film","america"},
-					  {"love","date","romantic","heart","sex","wedding"},
-					  {"comedy","funny","fun","family","joke","laugh"},
-					  {"guns","fight","adventure","action","superhero","hero"},
-					  {"documentary","portrail","life","celebrate","real","seen"},
-					  {"family","kids","fun","school","vacation","disney"},
-					  {"sci-fi","science","fiction","alien","time","effects"},
-					  {"adventure","quest","trip","clues","discover","Jungle"},
-					  {"mystery","clue","murder","find","police","killed"}};
+	String[][] words={{"scary","creepy","chills","kill","halloween","gore","blood","omen","devil","evil"},//10
+					  {"war","history","past","battle","glory","america","soldiers","black","nasa","events"},//10
+					  {"love","date","romantic","heart","sex","wedding","parents","home","lives","relationship"},//10
+					  {"comedy","funny","fun","family","joke","laugh","funniest","hilarious","comedies","entertaining"},//10
+					  {"guns","fight","adventure","action","superhero","hero","chase","violance","hostages","villain"},//10
+					  {"documentary","portrail","life","celebrate","real","seen","really","reality","commentary","based"},//10
+					  {"family","kids","fun","school","vacation","disney","friend","mom","dad","children"},//10
+					  {"sci-fi","science","fiction","alien","time","effects","planet","robot","space","crew"},//10
+					  {"adventure","quest","trip","clues","discover","jungle","chase","weapons","travel","selling"},//10
+					  {"mystery","clue","murder","crime","police","killed","detective","partner","private","find"}};//10
 	
 	public void readMovies() throws IOException{
 		//TODO: change on k machine
@@ -206,7 +206,7 @@ public class Reader {
 	}
 
 	public void readSentiments() throws IOException{
-		File csv = new File("C:/Users/IBM_ADMIN/workspace/COMP4601A2/resources/sentiment-reviews-individual.csv");
+		File csv = new File(path+"resources/sentiment-reviews-individual.csv");
 		BufferedReader reader = new BufferedReader(new FileReader(csv));
 		String line = null;
 		int lineNum = 0;
