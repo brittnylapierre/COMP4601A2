@@ -116,9 +116,6 @@ public class Profiler {
 			
 			user.setDimensions(userDataArray);
 			
-			//TODO: Give user a real community
-			Random rand = new Random();
-			user.setCommunity(rand.nextInt(3 - 1 + 1) + 1);
 			
 			//System.out.println("User: " + name + userDataArray.toString());
 			//}
