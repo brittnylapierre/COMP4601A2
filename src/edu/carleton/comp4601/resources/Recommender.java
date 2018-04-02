@@ -1,12 +1,16 @@
 package edu.carleton.comp4601.resources;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Random;
 import java.util.stream.Collectors;
 
+import javax.imageio.ImageIO;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -25,6 +29,7 @@ import edu.carleton.comp4601.dao.MovieStore;
 import edu.carleton.comp4601.dao.UserStore;
 import edu.carleton.comp4601.models.Movie;
 import edu.carleton.comp4601.models.User;
+import sun.misc.BASE64Encoder;
 
 @Path("/rs")
 public class Recommender {
@@ -270,6 +275,49 @@ public class Recommender {
 			
 			return "<html> " + "<title>" + name + " fetch</title>" + "<body><h1>" + name
 					+ " 404 - could not find page :-(</h1>  </body>" + "</html> ";
+		}	
+		/*
+		 * You are to implement a RESTful web service /advertising/{category} using GET that returns an HTML representation of the advertising category 
+		 * that you have designed. Here, category would be C-X, X = 1,..., m. NOTE: It is reasonable to expect that several pieces of advertising
+		 * would be provided for a particular community. This is for you to design and document.
+		 * */
+		@Path("advertising/{category}")
+		@GET
+		@Produces(MediaType.TEXT_HTML)
+		public String adds(@PathParam("category") int category) {
+			try {
+				String path = ROOT + "adds/" + category;
+				File dir = new File(path);
+				File[] directoryListing = dir.listFiles();
+				if (directoryListing != null) {
+					Random rand = new Random();
+					String adds = "";
+					int fileIndex = rand.nextInt((directoryListing.length-1) - 0 + 1); 
+					for(File imageFile : directoryListing){
+						if(imageFile.canRead()){
+							BufferedImage image = ImageIO.read(imageFile);
+
+							ByteArrayOutputStream bos = new ByteArrayOutputStream();
+				        
+							ImageIO.write(image, "png", bos);
+					        byte[] imageBytes = bos.toByteArray();
+					        
+					        BASE64Encoder encoder = new BASE64Encoder();
+				            String imageString = encoder.encode(imageBytes);
+				            adds += "<img width='200' src='data:image/png;base64, "+imageString+"'/>";
+						}
+					}
+					return "<html> " + "<title>" + name + " categories</title>" + "<body><h1>" + name
+							+ " Category " + category+ " Adds</h1>"+adds+"</body>" + "</html> ";
+				}
+			
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return "<html> " + "<title>" + name + " fetch</title>" + "<body><h1>" + name
+					+ " 404 - could not find category adds</h1>  </body>" + "</html> ";
 		}	
 		
 		/* 
