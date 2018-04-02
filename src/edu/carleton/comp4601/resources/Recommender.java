@@ -21,7 +21,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import edu.carleton.comp4601.dao.MovieStore;
 import edu.carleton.comp4601.dao.UserStore;
+import edu.carleton.comp4601.models.Movie;
 import edu.carleton.comp4601.models.User;
 
 @Path("/rs")
@@ -34,8 +36,8 @@ public class Recommender {
 		Request request;
 
 		private String name;
-		//private String ROOT = "C:/Users/IBM_ADMIN/workspace/COMP4601A2/";
-		String ROOT= "/Users/kellymaclauchlan/code/mobile/a2/COMP4601A2/";
+		private String ROOT = "C:/Users/IBM_ADMIN/workspace/COMP4601A2/";
+		//String ROOT= "/Users/kellymaclauchlan/code/mobile/a2/COMP4601A2/";
 		String[] genres = {"horror", "history", "romance","comedy","action","Documentary","Family","Sci-fi","Adventure","mystery"};
 		
 
@@ -238,13 +240,16 @@ public class Recommender {
 				if(moviePage.canRead()){
 					Document movieDoc;
 					movieDoc = Jsoup.parse(moviePage, "UTF-8");
-					Element body = movieDoc.body();
+					Element prependTo = movieDoc.body().children().first();
+					Movie m = MovieStore.getInstance().find(page);
 					User u = UserStore.getInstance().find(user);
-					if(u != null){
-						String addElementText = UserStore.getInstance().find(user).grabUserAdds();
-						body.append("<div>"
-								+ "<h3>Adverts!!!!!!!!!!!!!!!!! :D</h3>"
-								+ addElementText
+					if(u != null && m != null){
+						String userAddElementText = u.grabUserAdd();
+						String movieAddElementText = m.grabMovieAdd();
+						prependTo.before("<div style='position:  fixed;background:  white;width: 100%;bottom: 0;'>"
+								+ "<h3>Advertisements</h3>"
+								+ userAddElementText
+								+ movieAddElementText
 								+ "</div>");
 						return movieDoc.html();
 					}

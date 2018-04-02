@@ -62,9 +62,9 @@ public class User extends BasicDBObject {
 		this.community = community;
 	}
 	
-	public String grabUserAdds(){
+	public String grabUserAdd(){
 		try {
-			String path = "C:/Users/IBM_ADMIN/workspace/COMP4601A2/adds/"+ this.community;
+			String path = "C:/Users/IBM_ADMIN/workspace/COMP4601A2/adds/"+ (this.community + 1);
 			File dir = new File(path);
 			File[] directoryListing = dir.listFiles();
 			if (directoryListing != null) {
@@ -82,7 +82,7 @@ public class User extends BasicDBObject {
 				        
 				        BASE64Encoder encoder = new BASE64Encoder();
 			            String imageString = encoder.encode(imageBytes);
-			            return "<img src='data:image/png;base64, "+imageString+"'/>";
+			            return "<img width='200' title='Based on your profile you might enjoy this' src='data:image/png;base64, "+imageString+"'/>";
 					}
 				}
 			}
