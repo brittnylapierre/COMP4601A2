@@ -218,13 +218,13 @@ public class Recommender {
 			
 			int count = 1;
 			for(ArrayList<String> community : communitiesArr){
-				communityString += "COMMUNITY " + count + ": ";
-				communityString += community.stream().collect(Collectors.joining(", ")) + "<br>";
+				communityString += "<tr><td style=\"border: 1px solid grey; vertical-align: top;\">" + count + "</td>";
+				communityString += "<td style=\"border: 1px solid grey;\">" + community.stream().collect(Collectors.joining(", ")) + "</td></tr>";
 				count++;
 			}
 				
 			return "<html> " + "<title>" + name + " communities</title>" + "<body><h1>" + name
-						+ " communities</h1> "+communityString+" </body>" + "</html> ";
+						+ " communities</h1> <table style=\"border: 1px solid grey;border-collapse: collapse;\"><tr><th style=\"border: 1px solid grey;\">COMMUNITY</th><th style=\"border: 1px solid grey;\">USERS</th></tr>"+communityString+" </body>" + "</html> ";
 		}
 		
 		/* 
