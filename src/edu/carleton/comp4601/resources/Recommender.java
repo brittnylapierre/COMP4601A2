@@ -275,7 +275,8 @@ public class Recommender {
 			
 			return "<html> " + "<title>" + name + " fetch</title>" + "<body><h1>" + name
 					+ " 404 - could not find page :-(</h1>  </body>" + "</html> ";
-		}	
+		}
+		
 		/*
 		 * You are to implement a RESTful web service /advertising/{category} using GET that returns an HTML representation of the advertising category 
 		 * that you have designed. Here, category would be C-X, X = 1,..., m. NOTE: It is reasonable to expect that several pieces of advertising
@@ -320,16 +321,47 @@ public class Recommender {
 					+ " 404 - could not find category adds</h1>  </body>" + "</html> ";
 		}	
 		
-		/* 
-		 * You are to document the communities that you have found in analyzing the test data in the web pages and users 
-		 * provided. Furthermore, you must document how you created your advertising content and the mechanism used to 
-		 * retrieve it when using the /fetch/{user}/{page} service.
+		/*
+		 * You are to implement a RESTful web service /advertising/{category} using GET that returns an HTML representation of the advertising category 
+		 * that you have designed. Here, category would be C-X, X = 1,..., m. NOTE: It is reasonable to expect that several pieces of advertising
+		 * would be provided for a particular community. This is for you to design and document.
 		 * */
-		
-		/* USER BASED https://sikaman.dyndns.org/courses/4601/handouts/11-Recommender_Systems_An_Introduction_Chapter02_Collaborative_recommendation
-		 * You are to implement a RESTful web service /advertising/{category} using GET that returns an HTML 
-		 * representation of the advertising category that you have designed. Here, category would be 
-		 * C-X, X = 1,..., m. NOTE: It is reasonable to expect that several pieces of advertising would be provided for 
-		 * a particular community. This is for you to design and document.
-		 * */
+		@Path("advertising-genre/{category}")
+		@GET
+		@Produces(MediaType.TEXT_HTML)
+		public String addMovie(@PathParam("category") String category) {
+			try {
+				String path = ROOT + "adds/" + category;
+				File dir = new File(path);
+				File[] directoryListing = dir.listFiles();
+				if (directoryListing != null) {
+					Random rand = new Random();
+					String adds = "";
+					int fileIndex = rand.nextInt((directoryListing.length-1) - 0 + 1); 
+					for(File imageFile : directoryListing){
+						if(imageFile.canRead()){
+							BufferedImage image = ImageIO.read(imageFile);
+
+							ByteArrayOutputStream bos = new ByteArrayOutputStream();
+				        
+							ImageIO.write(image, "png", bos);
+					        byte[] imageBytes = bos.toByteArray();
+					        
+					        BASE64Encoder encoder = new BASE64Encoder();
+				            String imageString = encoder.encode(imageBytes);
+				            adds += "<img width='200' src='data:image/png;base64, "+imageString+"'/>";
+						}
+					}
+					return "<html> " + "<title>" + name + " categories</title>" + "<body><h1>" + name
+							+ " Category " + category+ " Adds</h1>"+adds+"</body>" + "</html> ";
+				}
+			
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return "<html> " + "<title>" + name + " fetch</title>" + "<body><h1>" + name
+					+ " 404 - could not find category adds</h1>  </body>" + "</html> ";
+		}	
 }
