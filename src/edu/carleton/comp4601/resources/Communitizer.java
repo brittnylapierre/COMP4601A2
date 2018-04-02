@@ -85,7 +85,7 @@ public class Communitizer {
 	}
 	public void addUser(User u,int i){
 		users[i]=new KmeansUser(u);
-		System.out.println("Added user");
+		//System.out.println("Added user");
 	}
 	public int getCommuityForUser(int i){
 		return users[i].cluster;

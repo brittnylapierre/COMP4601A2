@@ -66,7 +66,7 @@ public class DBReadWriter {
 					sDoc.put("sentiment", r.getValue().getSentiment().getSentiment());
 					sDoc.put("userMovieIds", r.getValue().getSentiment().getUserMovieIds());
 					rDocI.put("sentiment", sDoc);
-					rDocO.put(r.getKey(), rDocI);
+					rDocO.put(r.getKey().replace(".", ""), rDocI);
 					reviews.add(rDocO);
 				}
 				newDocument.put("reviews", reviews);
