@@ -52,7 +52,7 @@ public class Reader {
 					  {"love","date","romantic","heart","sex","wedding","parents","home","lives","relationship"},//10
 					  {"comedy","funny","fun","family","joke","laugh","funniest","hilarious","comedies","entertaining"},//10
 					  {"guns","fight","adventure","action","superhero","hero","chase","violance","hostages","villain"},//10
-					  {"documentary","portrail","life","celebrate","real","seen","really","reality","accurate","based"},//10
+					  {"documentary","portrail","life","documentary","documentary","influence","really","reality","accurate","documentary"},//10
 					  {"family","kids","fun","school","vacation","disney","friend","mom","dad","children"},//10
 					  {"sci-fi","science","fiction","alien","time","effects","planet","robot","space","crew"},//10
 					  {"adventure","quest","trip","clues","discover","jungle","chase","weapons","travel","selling"},//10
