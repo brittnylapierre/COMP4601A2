@@ -187,10 +187,28 @@ public class Recommender {
 			communitiesArr.add(new ArrayList<String>()); 
 			communitiesArr.add(new ArrayList<String>()); 
 			communitiesArr.add(new ArrayList<String>()); 
+			communitiesArr.add(new ArrayList<String>()); 
+			communitiesArr.add(new ArrayList<String>()); 
+			Communitizer commune=new Communitizer(UserStore.getInstance().size());
+			int i=0;
 			for(Enumeration<User> us = UserStore.getInstance().getUsers().elements(); us.hasMoreElements();){
 				User user  = us.nextElement();
-				communitiesArr.get(user.getCommunity()-1).add(user.getName()); //bc added communities as 1-3
+				commune.addUser(user, i);
+				i++;
+				//communitiesArr.get(user.getCommunity()-1).add(user.getName()); //bc added communities as 1-3
 			}
+			commune.algorithm();
+			i=0;
+			for(Enumeration<User> us = UserStore.getInstance().getUsers().elements(); us.hasMoreElements();){
+				User user  = us.nextElement();
+				int community=commune.getCommuityForUser(i);
+				user.setCommunity(community);//check that this is how you save
+				communitiesArr.get(community).add(user.getName());
+				
+				i++;
+				//communitiesArr.get(user.getCommunity()-1).add(user.getName()); //bc added communities as 1-3
+			}
+			
 			int count = 1;
 			for(ArrayList<String> community : communitiesArr){
 				communityString += "COMMUNITY " + count + ": ";

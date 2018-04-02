@@ -40,6 +40,11 @@ public class DBReadWriter {
 			MongoClient mongoClient = new MongoClient("localhost", 27017);
 			DB database = mongoClient.getDB("recommendDB");
 			DBCollection movieCollection = database.getCollection("movies");
+			BasicDBObject document = new BasicDBObject();
+
+			// Delete All documents from collection Using blank BasicDBObject
+			movieCollection.remove(document);
+			
 			movieCollection.setObjectClass(Movie.class);
 			for(Enumeration<Movie> m = MovieStore.getInstance().getMovies().elements(); m.hasMoreElements();){
 				Movie movie  = m.nextElement();
@@ -80,6 +85,10 @@ public class DBReadWriter {
 			MongoClient mongoClient = new MongoClient("localhost", 27017);
 			DB database = mongoClient.getDB("recommendDB");
 			DBCollection userCollection = database.getCollection("users");
+			BasicDBObject document = new BasicDBObject();
+
+			// Delete All documents from collection Using blank BasicDBObject
+			userCollection.remove(document);
 			userCollection.setObjectClass(User.class);
 			for(Enumeration<User> u = UserStore.getInstance().getUsers().elements(); u.hasMoreElements();){
 				User user  = u.nextElement();
@@ -107,6 +116,10 @@ public class DBReadWriter {
 			MongoClient mongoClient = new MongoClient("localhost", 27017);
 			DB database = mongoClient.getDB("recommendDB");
 			DBCollection sentimentCollection = database.getCollection("sentiments");
+			BasicDBObject document = new BasicDBObject();
+
+			// Delete All documents from collection Using blank BasicDBObject
+			sentimentCollection.remove(document);
 			sentimentCollection.setObjectClass(Sentiment.class);
 			for(Enumeration<Sentiment> s = SentimentStore.getInstance().getSentiments().elements(); s.hasMoreElements();){
 				Sentiment sentiment  = s.nextElement();
