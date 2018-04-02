@@ -248,8 +248,14 @@ public class Recommender {
 						String movieAddElementText = m.grabMovieAdd();
 						prependTo.before("<div style='position:  fixed;background:  white;width: 100%;bottom: 0;'>"
 								+ "<h3>Advertisements</h3>"
+								+ "<div style='display:inline-block; width:200px !important;'>"
 								+ userAddElementText
+								+ "<h5 style='display:inline; padding:0; width:200px !important'>Community "+(u.getCommunity()+1)+" add</h5>"
+								+ "</div>"
+								+ "<div style='display:inline-block; width:200px !important;'>"
 								+ movieAddElementText
+								+ "<h5 style='display:inline; padding:0; width:200px !important'>"+m.getGenre()+" add</h5>"
+								+ "</div>"
 								+ "</div>");
 						return movieDoc.html();
 					}
