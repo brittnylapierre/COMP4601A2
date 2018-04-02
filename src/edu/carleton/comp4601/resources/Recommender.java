@@ -34,8 +34,8 @@ public class Recommender {
 		Request request;
 
 		private String name;
-		private String ROOT = "C:/Users/IBM_ADMIN/workspace/COMP4601A2/";
-
+		//private String ROOT = "C:/Users/IBM_ADMIN/workspace/COMP4601A2/";
+		String ROOT= "/Users/kellymaclauchlan/code/mobile/a2/COMP4601A2/";
 		String[] genres = {"horror", "history", "romance","comedy","action","Documentary","Family","Sci-fi","Adventure","mystery"};
 		
 
