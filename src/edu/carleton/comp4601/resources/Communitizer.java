@@ -50,7 +50,7 @@ public class Communitizer {
 //			}else 
 				if(j%2==0){
 				top=5;
-				bottom=1;
+				bottom=0;
 			}else{
 				top=1;
 				bottom=-1;
