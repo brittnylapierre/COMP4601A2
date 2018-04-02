@@ -37,10 +37,10 @@ import edu.carleton.comp4601.models.User;
 //Reads in the users from the user html pages
 //Reads in the movies from the movies pages, and tags them with a genre
 public class Reader {
-	//String path= "/Users/kellymaclauchlan/code/mobile/a2/COMP4601A2/";
+	String path= "/Users/kellymaclauchlan/code/mobile/a2/COMP4601A2/";
 
 	
-	String path = "C:/Users/IBM_ADMIN/workspace/COMP4601A2/";
+	//String path = "C:/Users/IBM_ADMIN/workspace/COMP4601A2/";
 	public Reader(){
 		System.out.println("initialized reader...");
 	}
